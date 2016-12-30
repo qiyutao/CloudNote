@@ -103,7 +103,7 @@ public class SqlUtil {
 		List<ContextBean> list = new ArrayList<>();
 		
 		try {
-			ResultSet set = stmt.executeQuery("select * from Note");
+			ResultSet set = stmt.executeQuery("select * from Note order by note_date desc");
 			while(set.next()) {
 				ContextBean bean = new ContextBean();
 				bean.setNoteId(set.getInt(1));
@@ -120,6 +120,32 @@ public class SqlUtil {
 		}
 		
 		return list;
+	}
+	
+	public void delete(int userId,int noteId) {
+		try {
+			PreparedStatement ps = conn.prepareStatement("delete from Note where user_id=? and note_id=?");
+			ps.setInt(1, userId);
+			ps.setInt(2, noteId);
+			ps.execute();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public void update(ContextBean bean) {
+		try {
+			String sql = "update Note set note_title='"+bean.getNoteTitle()+
+					"',note_context='"+bean.getNoteContext()+
+					"',note_date=NOW() where note_id="+bean.getNoteId()+
+					" and user_id="+bean.getUserId();
+			stmt.execute(sql);
+			System.out.println(sql);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	public void close() {

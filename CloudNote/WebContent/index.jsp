@@ -56,7 +56,8 @@ if(session.getAttribute("user_id")==null) {
                 	SqlUtil util = new SqlUtil();
                 	list = util.getContext();
                 	util.close();
-                	
+                	int count = 0;
+                	session.setAttribute("notelist", list);
                 	for(ContextBean bean:list) {
                 		out.println("<article class=\"uk-article\">");
                 		out.println("<h1 class=\"uk-article-title\"><a href=\"#\">"+bean.getNoteTitle()+"</a></h1>");
@@ -66,18 +67,16 @@ if(session.getAttribute("user_id")==null) {
                                 "<i class=\"o-icon uk-icon-calendar-o\"></i>"+
                                 "<a href=\"#\">"+bean.getNoteDate()+"</a><!--日期归档-->"+
                                 "<i class=\"o-icon uk-icon-book\"></i>"+
-                                "<a href=\"#\">"+
-                                "<a href=\"#\">博客日记</a><!--分类-->"+
+                                "<a href=\"#\">"+//servlet?op=del&userid=1&noteid=1
+                                "<a href=\""+"./OperationServlet?op=del&count="+count+
+                                "\">删除</a><!--分类-->"+
                                 "<i class=\"o-icon uk-icon-tags\"></i>"+
-                                "<a href=\"#\">洛神赋</a>,"+
-                                "<a href=\"#\">图片</a>,"+
-                                "<a href=\"#\">凤梨</a><!--文章标签-->"+
-                                "<i class=\"o-icon uk-icon-comments-o\"></i>"+
-                                "<a href=\"#\">122</a><!--评论数-->"+
+                                "<a href=\""+"./OperationServlet?op=edit&count="+count+
+                                "\">修改</a>"+
                             "</p>"+
                             "<hr class=\"uk-article-divider\" />"+
                         "</article>");
-                        
+                        count++;
                 	}
                 	
                 %>
