@@ -2,10 +2,14 @@ package com.seven.sql;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
+import com.seven.bean.ContextBean;
 import com.seven.bean.UserBean;
 
 public class SqlUtil {
@@ -78,6 +82,44 @@ public class SqlUtil {
 		}
 		
 		return id;
+	}
+	
+	public void insertContext(ContextBean bean) {
+		
+		String sql = "insert into Note values(null," +
+				bean.getUserId()+",'"+
+				bean.getNoteTitle()+"','"+
+				bean.getNoteContext()+"',NOW())";
+		
+		try {
+			stmt.execute(sql);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public List<ContextBean> getContext() {
+		List<ContextBean> list = new ArrayList<>();
+		
+		try {
+			ResultSet set = stmt.executeQuery("select * from Note");
+			while(set.next()) {
+				ContextBean bean = new ContextBean();
+				bean.setNoteId(set.getInt(1));
+				bean.setUserId(set.getInt(2));
+				bean.setNoteTitle(set.getString(3));
+				bean.setNoteContext(set.getString(4));
+				bean.setNoteDate(set.getString(5));
+				
+				list.add(bean);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return list;
 	}
 	
 	public void close() {

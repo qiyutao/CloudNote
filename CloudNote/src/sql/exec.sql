@@ -6,3 +6,4 @@ user_email varchar(80),
 user_time DATETIME,
 primary key (user_id)
 );
+select * from note;
