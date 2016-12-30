@@ -58,6 +58,23 @@ if(session.getAttribute("user_id")==null) {
                 	util.close();
                 	int count = 0;
                 	session.setAttribute("notelist", list);
+                	if(list.isEmpty()) {
+                		out.println("<article class=\"uk-article\">");
+                		out.println("<h1 class=\"uk-article-title\"><a href=\"#\">"+"初始化导引"+"</a></h1>");
+                        out.println("<p>"+"点击左侧“云”标签添加笔记，点击便签底部“删除”按钮进行删除，点击便签底部“修改”按钮进行修改"+"</p>");
+                        out.println("<p class=\"o-meta uk-article-meta\">"+
+                                "<a href=\"#\">"+session.getAttribute("user_name")+"</a><!--作者-->"+
+                                "<i class=\"o-icon uk-icon-calendar-o\"></i>"+
+                                "<a href=\"#\">"+"2016-12"+"</a><!--日期归档-->"+
+                                "<i class=\"o-icon uk-icon-book\"></i>"+
+                                "<a href=\"#\">"+//servlet?op=del&userid=1&noteid=1
+                                "<a href=\"#\">删除</a><!--分类-->"+
+                                "<i class=\"o-icon uk-icon-tags\"></i>"+
+                                "<a href=\"#\">修改</a>"+
+                            "</p>"+
+                            "<hr class=\"uk-article-divider\" />"+
+                        "</article>");
+                	}
                 	for(ContextBean bean:list) {
                 		out.println("<article class=\"uk-article\">");
                 		out.println("<h1 class=\"uk-article-title\"><a href=\"#\">"+bean.getNoteTitle()+"</a></h1>");
